@@ -1,4 +1,4 @@
-'''
+"""
 Write a small command-line script called mailroom.py. This script should be executable.
 The script should accomplish the following goals:
 
@@ -8,7 +8,7 @@ You can store that data structure in the global namespace.
 
 The script should prompt the user (you) to choose from a menu of 3 actions:
 “Send a Thank You”, “Create a Report” or “quit”.
-'''
+"""
 
 donor_data = [('Tony Stark', [10]),
               ('Steven Rogers', [10, 20]),
@@ -43,9 +43,9 @@ def menu():
 
 
 def display_donors():
-    '''
+    """
     Function that will print the list of donors
-    '''
+    """
 
     print('\n')
     for step in range(0, len(donor_data)):
@@ -54,10 +54,10 @@ def display_donors():
 
 
 def generate_donor_list():
-    '''
+    """
     Function that will generate a donor_list to check against
     to see if the input from user entering an existing donor
-    '''
+    """
     donor_list = [''] * len(donor_data)
     for step in range(0, len(donor_data)):
         donor_list[step] = donor_data[step][0]
@@ -74,7 +74,7 @@ def current_donor(donor_name, new_donation):
 
 
 def add_new_donor_to_database(donor_name, new_donation):
-    '''For donors not on the list adds them to the list'''
+    """For donors not on the list adds them to the list"""
     new_donor = (donor_name, [new_donation])
     donor_data.append(new_donor)
     print(donor_data)
@@ -111,7 +111,7 @@ def draft_email(donor_name, donor_amount):
           f'We greatly appreciate your support to our cause. \n'
           f'Best regards,\n'
           f'Staff Member\n')
-    return (f'Thank you {donor_name} for your generous donation of ${donor_amount}.')
+    return f'Thank you {donor_name} for your generous donation of ${donor_amount}.'
 
 
 def generate_report_data():
@@ -132,14 +132,14 @@ def generate_report_data():
 
 def print_report():
     no_donors, donation_total, donation_freq, donation_average = generate_report_data()
-    # Formating and Printing for Header
+    # Formatting and Printing for Header
     header = ['Donor Name', 'Total Given', 'Number Gifts', 'Average Gifts']
     header_format = '{:18}|{:16}|{:16}|{:20}|'
     print('\n')
     print(header_format.format(*header))
     print('-' * int(len(header_format.format(*header))))  # dividing line for the report
 
-    # Formating and Printing for Donor List
+    # Formatting and Printing for Donor List
     donor_format = '{:18}|${:15.2f}|{:16}|${:19.2f}|'
 
     for step in range(0, no_donors):
