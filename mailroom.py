@@ -17,29 +17,28 @@ donor_data = [('Tony Stark', [10]),
               ('Geoffrey Donnell', [60, 70])]
 
 
-def menu():
-    # This function will be the one that runs everytime and will point to other functions to complete
-    # the three tasks. (1) Generate a report (2) generate a report (3) or quit.
+def check_donation():
+    # Function created to check and ensure valid inputs are given for donations
+    invalid = True
+    while invalid == True:
+        new_donation = input('How much is this donation: ')
+        try:
+            new_donation = float(new_donation)
+        except ValueError:
+            print('You need to enter a valid numerical value.')
+        else:
+            new_donation = float(new_donation)
+            round_donation = round(new_donation, 2)
+            difference = round_donation - new_donation
+            if new_donation <=0:
+              print('You need to enter a value greater than zero.')
+              new_donation = check_donation() # Start this script over
+            if difference != 0:
+              print('You need to enter valid monetary value in the form of 0.00')
+              new_donation = check_donation()
+            invalid = False
 
-    print('\nWelcome to the Automated Mail Room System (AMRS).\n'
-          'Please select from the three options below \n'
-          'by entering the value contained in the ()\n'
-          '(1) Generate a Report\n'
-          '(2) Send a Thank You\n'
-          '(3) Quit the program')
-    choice = (input('What would you like to do? Enter value: '))
-
-    while choice not in ['1', '2', '3']:
-        choice = (input('Invalid value. Please enter a valid choice: 1, 2, or 3: '))
-
-    if choice == '1':
-        print_report()
-    if choice == '2':
-        letter_options()
-    if choice == '3':
-        print("\n Thanks for using AMRS, Goodbye!")
-        quit()
-    return
+    return new_donation
 
 
 def display_donors():
@@ -77,30 +76,7 @@ def add_new_donor_to_database(donor_name, new_donation):
     """For donors not on the list adds them to the list"""
     new_donor = (donor_name, [new_donation])
     donor_data.append(new_donor)
-    print(donor_data)
     return donor_data
-
-
-def letter_options():
-    donor_name = input("Please enter the full name of the donor (case sensitive) or type L for a list of donors: ")
-    if donor_name == 'L':
-        display_donors()
-        letter_options()
-    donor_list = generate_donor_list()
-    if donor_name in donor_list:
-        new_donation = float(input('We have found this donor in our data base.\n'
-                                   'How much is this additional donation? Please enter a value: '))
-        current_donor(donor_name, new_donation)
-        draft_email(donor_name, new_donation)
-        menu()
-    else:
-        new_donation = float(input('Yay we have a new donor!\n'
-                                   'How much is this new donation? Please enter a value: '))
-        add_new_donor_to_database(donor_name, new_donation)
-        print(donor_data)
-        draft_email(donor_name, new_donation)
-        menu()
-    pass
 
 
 def draft_email(donor_name, donor_amount):
@@ -149,6 +125,52 @@ def print_report():
                                   float(donation_average[step])))
     menu()  # after report is generated we will go back to the menu
     pass
+
+
+def letter_options():
+    donor_name = input("Please enter the full name of the donor (case sensitive) or type L for a list of donors: ")
+    if donor_name == 'L':
+        display_donors()
+        letter_options()
+    donor_list = generate_donor_list()
+    if donor_name in donor_list:
+        print('Yay this donor has given us more money!')
+        new_donation = check_donation()
+        current_donor(donor_name, new_donation)
+        draft_email(donor_name, new_donation)
+        menu()
+    else:
+        print('Yay we have a new donor!')
+        new_donation = check_donation()
+        add_new_donor_to_database(donor_name, new_donation)
+        draft_email(donor_name, new_donation)
+        menu()
+    pass
+
+
+def menu():
+    # This function will be the one that runs everytime and will point to other functions to complete
+    # the three tasks. (1) Generate a report (2) generate a report (3) or quit.
+
+    print('\nWelcome to the Automated Mail Room System (AMRS).\n'
+          'Please select from the three options below \n'
+          'by entering the value contained in the ()\n'
+          '(1) Generate a Report\n'
+          '(2) Send a Thank You\n'
+          '(3) Quit the program')
+    choice = (input('What would you like to do? Enter value: '))
+
+    while choice not in ['1', '2', '3']:
+        choice = (input('Invalid value. Please enter a valid choice: 1, 2, or 3: '))
+
+    if choice == '1':
+        print_report()
+    if choice == '2':
+        letter_options()
+    if choice == '3':
+        print("\n Thanks for using AMRS, Goodbye!")
+        quit()
+    return
 
 
 if __name__ == '__main__':
