@@ -6,7 +6,6 @@ is working properly using pytest.
 from mailroom import generate_donor_list
 from mailroom import current_donor
 from mailroom import add_new_donor_to_database
-from mailroom import draft_email
 from mailroom import generate_report_data
 
 
@@ -48,14 +47,6 @@ def test_add_new_donor_to_database():
                 ('Geoffrey Donnell', [60, 70]),
                 ('Iron Man', [200])]
     assert add_new_donor_to_database('Iron Man', 200) == expected
-
-
-def test_draft_email():
-    """
-    This test is to ensure that the draft email contains the correct name and amount
-    """
-    expected = 'Thank you Batman for your generous donation of $230.12.'
-    assert draft_email('Batman', 230.12) == expected
 
 
 def test_donation_total():
